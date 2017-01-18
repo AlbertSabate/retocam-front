@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Poiret+One');
 
+$border-radius: .15rem;
+$border-radius-lg: .15rem;
+$border-radius-sm: .15rem;
+
 $diables-primary: #BF141D;
 $diables-secondary: #000;
 $font-family-base: 'Poiret One';
@@ -7,3 +11,4 @@ $font-family-base: 'Poiret One';
 @import '../../node_modules/bootstrap/scss/bootstrap';
 @import 'base';
 @import 'loading';
+@import 'login';
