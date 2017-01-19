@@ -26,52 +26,55 @@
 
 <div class="container" *ngIf="!isLoggedIn() && !isSignIn()">
   <div class="row justify-content-center">
-    <div class="col-6 login-form form-signup">
+    <div class="col-md-6 login-form form-signup">
       <h2>Burguer Form</h2>
 
       <div class="form-group">
-        <label for="signUpName">Nom</label>
-        <input type="text" class="form-control" id="signUpName" placeholder="Introdueix el teu nom" [(ngModel)]="signUp.name">
+        <h5>Nom</h5>
+        <input type="text" class="form-control" placeholder="Introdueix el teu nom" [(ngModel)]="signUp.name">
       </div>
+
       <div class="form-group">
-        <label for="signUpEmail">Email</label>
+        <h5>Email</h5>
         <input type="email" class="form-control" id="signUpEmail" placeholder="Introdueix el teu email" [(ngModel)]="signUp.email">
       </div>
+
       <div class="form-group">
-        <label for="signUpPassword">Contrasenya</label>
+        <h5>Contrasenya</h5>
         <input type="password" class="form-control" id="signUpPassword" placeholder="Introdueix una contrasenya" [(ngModel)]="signUp.password">
       </div>
+
       <div class="form-group">
-        <label for="signUpGroup">Grup</label>
+        <h5>Grup</h5>
         <input type="text" class="form-control" id="signUpGroup" placeholder="Introdueix el nom de la teva colla" [(ngModel)]="signUp.group">
       </div>
 
-      <h4>Tipus d'hamburguesa</h4>
-      <div class="text-center checkbox-svg-form">
-        <div class="form-check form-check-inline" *ngFor="let burgerType of burgerTypes">
-          <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="eatType" [value]="burgerType.value" [(ngModel)]="signUp.eatType" (change)="changeBurgerType()">
+      <h5>Tipus d'hamburguesa</h5>
+      <div class="checkbox-svg-form row justify-content-center">
+        <div class="col-4" *ngFor="let burgerType of burgerTypes">
+          <label>
+            <input type="radio" name="eatType" [value]="burgerType.value" [(ngModel)]="signUp.eatType" (change)="changeBurgerType()">
             <img [src]="burgerType.img" alt="{{ burgerType.label }}" class="rounded-0">
             <p>{{ burgerType.label }}</p>
           </label>
         </div>
       </div>
 
-      <h4>Ingredients <small class="text-muted smaller">Màxim 3 ingredients</small></h4>
-      <div class="text-center checkbox-svg-form">
-        <div class="form-check form-check-inline" *ngFor="let ingredient of ingredients">
-          <label class="form-check-label" *ngIf="signUp.eatType === 'all' || signUp.eatType === 'veggy' && ingredient.isVeggy">
+      <h5>Ingredients <small class="text-muted smaller">Màxim 3 ingredients</small></h5>
+      <div class="checkbox-svg-form row justify-content-center">
+        <div class="col-4" *ngFor="let ingredient of ingredients">
+          <label *ngIf="signUp.eatType === 'all' || signUp.eatType === 'veggy' && ingredient.isVeggy">
             <input class="form-check-input" type="checkbox" [value]="ingredient.value" (change)="changeBurgerIngredients($event)">
-            <img [src]="ingredient.img" alt="{{ ingredient.label }}" class="rounded-0">
+            <img [src]="ingredient.img" alt="{{ ingredient.label }}">
             <p>{{ ingredient.label }}</p>
           </label>
         </div>
       </div>
 
-      <h4>Beguda</h4>
-      <div class="text-center checkbox-svg-form">
-        <div class="form-check form-check-inline" *ngFor="let drink of drinks">
-          <label class="form-check-label">
+      <h5>Beguda</h5>
+      <div class="checkbox-svg-form row justify-content-center">
+        <div class="col-4" *ngFor="let drink of drinks">
+          <label>
             <input class="form-check-input" type="radio" name="drink" [value]="drink.value" [(ngModel)]="signUp.drink">
             <img [src]="drink.img" alt="{{ drink.label }}" class="rounded-0">
             <p>{{ drink.label }}</p>
@@ -80,8 +83,8 @@
       </div>
 
       <div class="form-group">
-        <label for="signUpComments">Comentaris</label>
-        <textarea class="form-control" id="signUpComments" rows="3" [(ngModel)]="signUp.comments"></textarea>
+        <h5>Comentaris</h5>
+        <textarea class="form-control" rows="3" [(ngModel)]="signUp.comments"></textarea>
       </div>
 
       <button class="btn btn-lg btn-primary btn-block" (click)="sendSignUpForm($event)">Registra-la!</button>

@@ -1,23 +1,24 @@
 .checkbox-svg-form {
-  input[type="checkbox"],
-  input[type="radio"] {
-    display: none;
-  }
+  text-align: center;
 
-  img {
-    width: 75px;
-  }
-
-  .form-check-inline {
-    width: 30%;
-    text-align: center;
+  & > div {
+    input[type="checkbox"],
+    input[type="radio"] {
+      display: none;
+    }
 
     label {
+      cursor: pointer;
+
+      img {
+        width: 100%;
+      }
+
       input[type="checkbox"] + img,
       input[type="radio"] + img,
       input[type="checkbox"] + img + p,
       input[type="radio"] + img + p {
-        opacity: .6;
+        opacity: .5;
         filter: grayscale(50%);
       }
 
