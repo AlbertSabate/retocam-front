@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
+import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+
+import { environment } from '../environments/environment';
 
 class SignIn {
   public email: String;
@@ -13,8 +17,6 @@ class SignIn {
 
 class SignUp {
   public name: String;
-  public email: String;
-  public password: String;
   public group: String;
   public eatType: String = 'all';
   public burgerIngredients: Array<String> = [];
@@ -30,9 +32,9 @@ class SignUp {
 export class AppComponent implements OnInit {
   public loading = true;
   public title: String = 'RETOCA\'Mmmm';
-  public subtitle: String = 'Festa de la Percussió de Les Corts';
+  public subtitle: String = 'Festa de la Percussió de Les Corts 2017';
   public year: String = '2017';
-  public loginForm: Boolean = true;
+  public loginForm: Boolean = false;
   public burgerTypes: Array<Object> = [
     {
       label: 'Carn',
@@ -110,8 +112,12 @@ export class AppComponent implements OnInit {
   public users: Array<Object>;
 
   constructor(
-    private http: Http
+    private http: Http,
+    private vRef: ViewContainerRef,
+    private toastr: ToastsManager
   ) {
+    this.toastr.setRootViewContainerRef(vRef);
+
     this.signIn = new SignIn();
     this.signUp = new SignUp();
   }
@@ -130,21 +136,17 @@ export class AppComponent implements OnInit {
     return this.loginForm;
   }
 
-  public showSignUp(event) {
-    event.preventDefault();
-
+  public showSignUp() {
     this.loginForm = false;
   }
 
-  public showSignIn(event) {
-    event.preventDefault();
-
+  public showSignIn() {
     this.loginForm = true;
   }
 
   public changeBurgerType() {
     if (this.signUp.eatType === 'veggy') {
-      let index = this.signUp.burgerIngredients.indexOf('bacon');
+      const index = this.signUp.burgerIngredients.indexOf('bacon');
 
       if (index !== -1) {
         this.signUp.burgerIngredients.splice(index, 1);
@@ -155,7 +157,7 @@ export class AppComponent implements OnInit {
   public changeBurgerIngredients(event) {
     if (this.signUp.burgerIngredients.length >= 3) {
       event.target.checked = false;
-      let index = this.signUp.burgerIngredients.indexOf(event.target.value);
+      const index = this.signUp.burgerIngredients.indexOf(event.target.value);
 
       if (index !== -1) {
         this.signUp.burgerIngredients.splice(index, 1);
@@ -164,7 +166,7 @@ export class AppComponent implements OnInit {
       if (event.target.checked) {
         this.signUp.burgerIngredients.push(event.target.value);
       } else {
-        let index = this.signUp.burgerIngredients.indexOf(event.target.value);
+        const index = this.signUp.burgerIngredients.indexOf(event.target.value);
 
         if (index !== -1) {
           this.signUp.burgerIngredients.splice(index, 1);
@@ -173,15 +175,78 @@ export class AppComponent implements OnInit {
     }
   }
 
-  public sendSignInForm(event) {
-    event.preventDefault();
-
-    console.log(this.signIn);
+  public sendSignInForm() {
+    this.authUserApiRequest().subscribe(
+      response => {
+        if (response.message === 'INVALID_PASSWORD') {
+          this.toastr.error('Error al validar-te');
+        } else if (response.message === 'AUTH_SUCCESS') {
+          this.toastr.success('Validat correctament');
+          localStorage.setItem('token', response.token);
+        } else {
+          this.toastr.error(response.message);
+        }
+      },
+      error => {
+        this.toastr.error('Error al validar-te');
+      }
+    );
   }
 
-  public sendSignUpForm(event) {
-    event.preventDefault();
+  public sendSignUpForm() {
+    this.createUserApiRequest().subscribe(
+      response => {
+        if (response.message === 'USER_CREATED') {
+          this.toastr.success('BURGER GUARDADA CORRECTAMENT!');
+        } else if (response.message === 'NAME_REQUIRED') {
+          this.toastr.error('Has d\'escriure el teu nom!');
+        } else {
+          this.toastr.error(response.message);
+        }
+      },
+      error => {
+        this.toastr.error('Error al guardar la teva burger! :(');
+      }
+    );
+  }
 
-    console.log(this.signUp);
+  private authUserApiRequest(): Observable<any> {
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.apiUrl + 'authenticate', JSON.stringify(this.signIn), options)
+      .map((response: Response) => {
+        const body = response.json();
+
+        return body || { };
+      })
+      .catch(this.handleError);
+  }
+
+  private createUserApiRequest(): Observable<any> {
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.apiUrl + 'users', JSON.stringify(this.signUp), options)
+      .map((response: Response) => {
+        const body = response.json();
+
+        return body || { };
+      })
+      .catch(this.handleError);
+  }
+
+  private handleError (error: Response | any) {
+    // In a real world app, we might use a remote logging infrastructure
+    let errMsg: string;
+    if (error instanceof Response) {
+      const body = error.json() || '';
+      const err = body.error || JSON.stringify(body);
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    } else {
+      errMsg = error.message ? error.message : error.toString();
+    }
+    console.error(errMsg);
+    return Observable.throw(errMsg);
   }
 }

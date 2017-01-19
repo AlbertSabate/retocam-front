@@ -9,6 +9,7 @@ $diables-secondary: #000;
 $font-family-base: 'Poiret One';
 
 @import '../../node_modules/bootstrap/scss/bootstrap';
+@import '../../node_modules/ng2-toastr/ng2-toastr.css';
 @import 'base';
 @import 'loading';
 @import 'login';

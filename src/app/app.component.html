@@ -7,8 +7,7 @@
 
 <header>
   <div class="container-fluid text-center">
-    <img class="logo" src="/assets/img/diablillu.png">
-    <h1>{{ title }}</h1>
+    <img class="logo" src="/assets/img/logo_r.png">
     <h2>{{ subtitle }}</h2>
   </div>
 </header>
@@ -25,8 +24,8 @@
           <input type="checkbox" [value]="'true'" [(ngModel)]="signIn.extended"> Recorda'Mmmm
         </label>
       </div>
-      <button class="btn btn-lg btn-primary btn-block" (click)="sendSignInForm($event)">Entra!</button>
-      <button class="btn btn-lg btn-secondary btn-block" (click)="showSignUp($event)">Registra la teva burguer!</button>
+      <button class="btn btn-lg btn-primary btn-block" (click)="sendSignInForm()">Entra!</button>
+      <button class="btn btn-lg btn-secondary btn-block" (click)="showSignUp()">Registra la teva burguer!</button>
     </div>
   </div>
 </div>
@@ -39,16 +38,6 @@
       <div class="form-group">
         <h5>Nom</h5>
         <input type="text" class="form-control" placeholder="Introdueix el teu nom" [(ngModel)]="signUp.name">
-      </div>
-
-      <div class="form-group">
-        <h5>Email</h5>
-        <input type="email" class="form-control" id="signUpEmail" placeholder="Introdueix el teu email" [(ngModel)]="signUp.email">
-      </div>
-
-      <div class="form-group">
-        <h5>Contrasenya</h5>
-        <input type="password" class="form-control" id="signUpPassword" placeholder="Introdueix una contrasenya" [(ngModel)]="signUp.password">
       </div>
 
       <div class="form-group">
@@ -67,16 +56,17 @@
         </div>
       </div>
 
-      <h5>Ingredients <small class="text-muted smaller">Màxim 3 ingredients</small></h5>
-      <div class="checkbox-svg-form row justify-content-center">
+      <h5 *ngIf="signUp.eatType !== 'veggy'">Ingredients <small class="text-muted smaller">Màxim 3 ingredients</small></h5>
+      <div *ngIf="signUp.eatType !== 'veggy'" class="checkbox-svg-form row justify-content-center">
         <div class="col-4" *ngFor="let ingredient of ingredients">
-          <label *ngIf="signUp.eatType === 'all' || signUp.eatType === 'veggy' && ingredient.isVeggy">
+          <label>
             <input class="form-check-input" type="checkbox" [value]="ingredient.value" (change)="changeBurgerIngredients($event)">
             <img [src]="ingredient.img" alt="{{ ingredient.label }}">
             <p>{{ ingredient.label }}</p>
           </label>
         </div>
       </div>
+      <h4 class="text-center text-success" *ngIf="signUp.eatType === 'veggy'">Entrepa d'humus amb escalivada [NO BURGER]</h4>
 
       <h5>Beguda</h5>
       <div class="checkbox-svg-form row justify-content-center">
@@ -94,8 +84,8 @@
         <textarea class="form-control" rows="3" [(ngModel)]="signUp.comments"></textarea>
       </div>
 
-      <button class="btn btn-lg btn-primary btn-block" (click)="sendSignUpForm($event)">Registra-la!</button>
-      <button class="btn btn-lg btn-secondary btn-block" (click)="showSignIn($event)">Accedeix!</button>
+      <button class="btn btn-lg btn-primary btn-block" (click)="sendSignUpForm()">Registra-la!</button>
+      <button class="btn btn-lg btn-secondary btn-block" (click)="showSignIn()">Zona Privada!</button>
     </div>
   </div>
 </div>
@@ -106,6 +96,6 @@
 
 <footer>
   <div class="container">
-    Retoca'Mmmm © Diables de les Corts {{ year }}
+    <img class="footer" src="/assets/img/logo_r.png"> Retoca'Mmmm © <img class="footer" src="/assets/img/diablillu.png"> Diables de les Corts {{ year }}
   </div>
 </footer>

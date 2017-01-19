@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiUrl: 'http://retocam.diablesdelescorts.cat:8585/'
 };
