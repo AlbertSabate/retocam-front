@@ -3,7 +3,7 @@
   padding: 30px;
   border-radius: $border-radius;
 
-  .form-signin {
+  &.form-signin {
     .checkbox {
       margin: 5px auto;
     }
@@ -34,8 +34,8 @@
     }
   }
 
-  .form-signin,
-  .form-signup {
+  &.form-signin,
+  &.form-signup {
     button {
       cursor: pointer;
 

@@ -7,4 +7,27 @@
   img {
     width: 75px;
   }
+
+  .form-check-inline {
+    width: 30%;
+    text-align: center;
+
+    label {
+      input[type="checkbox"] + img,
+      input[type="radio"] + img,
+      input[type="checkbox"] + img + p,
+      input[type="radio"] + img + p {
+        opacity: .6;
+        filter: grayscale(50%);
+      }
+
+      input[type="checkbox"]:checked + img,
+      input[type="radio"]:checked + img,
+      input[type="checkbox"]:checked + img + p,
+      input[type="radio"]:checked + img + p {
+        opacity: 1;
+        filter: grayscale(0);
+      }
+    }
+  }
 }
