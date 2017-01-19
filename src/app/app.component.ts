@@ -1,4 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 class SignIn {
   public email: String;
@@ -22,7 +27,8 @@ class SignUp {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  public loading = true;
   public title: String = 'RETOCA\'Mmmm';
   public subtitle: String = 'Festa de la Percussió de Les Corts';
   public year: String = '2017';
@@ -101,13 +107,22 @@ export class AppComponent {
 
   public signIn: SignIn;
   public signUp: SignUp;
+  public users: Array<Object>;
 
-  constructor() {
+  constructor(
+    private http: Http
+  ) {
     this.signIn = new SignIn();
     this.signUp = new SignUp();
   }
 
+  ngOnInit() {
+    this.loading = false;
+    // TODO has token in session?
+  }
+
   public isLoggedIn(): Boolean {
+    // TODO return real values
     return false;
   }
 
