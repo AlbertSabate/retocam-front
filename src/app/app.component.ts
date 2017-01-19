@@ -11,24 +11,69 @@ export class AppComponent {
   public year: String = '2017';
   public loginForm: Boolean = true;
   public burguerTypes: Array<Object> = [
-    {'all': 'Carn'},
-    {'veggy': 'Veggy'}
+    {
+      'label': 'Carn',
+      'img': '/assets/img/chicken.svg',
+      'value': 'all'
+    }, {
+      'label': 'Veggy',
+      'img': '/assets/img/vegan.svg',
+      'value': 'veggy'
+    }
   ];
   public ingredients: Array<Object> = [
-    {'salad': 'Enciam'},
-    {'tomato': 'Tomàquet'},
-    {'goatCheese': 'Formatge de Cabra'},
-    {'emmentalCheese': 'Formatge Emmental'},
-    {'onion': 'Ceba'},
-    {'bacon': 'Bacon'}
+    {
+      'label': 'Enciam',
+      'img': '/assets/img/salad.svg',
+      'value': 'salad'
+    }, {
+      'label': 'Tomàquet',
+      'img': '/assets/img/tomato.svg',
+      'value': 'tomato'
+    }, {
+      'label': 'Formatge de Cabra',
+      'img': '/assets/img/cheese.svg',
+      'value': 'goatCheese'
+    }, {
+      'label': 'Formatge Emmental',
+      'img': '/assets/img/cheese.svg',
+      'value': 'emmentalCheese'
+    }, {
+      'label': 'Ceba',
+      'img': '/assets/img/onion.svg',
+      'value': 'onion'
+    }, {
+      'label': 'Bacon',
+      'img': '/assets/img/bacon.svg',
+      'value': 'bacon'
+    }
   ];
-  public drink: Array<Object> = [
-    {'beer': 'Birra'},
-    {'coca-cola': 'Coca Cola'},
-    {'lemon-fanta': 'Fanta llimó'},
-    {'orange-fanta': 'Fanta taronja'},
-    {'water': 'Aigua'},
-    {'nothing': 'Res'}
+  public drinks: Array<Object> = [
+    {
+      'label': 'Birra',
+      'img': '/assets/img/beer.svg',
+      'value': 'beer'
+    }, {
+      'label': 'Coca Cola',
+      'img': '/assets/img/coca-cola.svg',
+      'value': 'coca-cola'
+    }, {
+      'label': 'Fanta llimó',
+      'img': '/assets/img/fanta.svg',
+      'value': 'lemon-fanta'
+    }, {
+      'label': 'Fanta taronja',
+      'img': '/assets/img/fanta.svg',
+      'value': 'orange-fanta'
+    }, {
+      'label': 'Aigua',
+      'img': '/assets/img/water.svg',
+      'value': 'water'
+    }, {
+      'label': 'Res',
+      'img': '/assets/img/nothing.svg',
+      'value': 'nothing'
+    }
   ];
 
   public isLoggedIn(): Boolean {
