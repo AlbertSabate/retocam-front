@@ -1,101 +1,18 @@
-<div class="cssload-thecube" *ngIf="loading">
-  <div class="cssload-cube cssload-c1"></div>
-  <div class="cssload-cube cssload-c2"></div>
-  <div class="cssload-cube cssload-c4"></div>
-  <div class="cssload-cube cssload-c3"></div>
-</div>
+<app-loading></app-loading>
 
 <header>
   <div class="container-fluid text-center">
     <img class="logo" src="/assets/img/logo_r.png">
-    <h2>{{ subtitle }}</h2>
+    <h2>{{ title }} {{ year }}</h2>
   </div>
 </header>
 
-<div class="container" *ngIf="!isLoggedIn() && isSignIn()">
-  <div class="row justify-content-center">
-    <div class="col-md-6 login-form form-signin">
-      <h2>Accedeix</h2>
-
-      <input type="email" class="form-control" placeholder="Direcció d'email" autofocus="" [(ngModel)]="signIn.email">
-      <input type="password" class="form-control" placeholder="Contrasenya" autocomplete="off" [(ngModel)]="signIn.password">
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" [value]="'true'" [(ngModel)]="signIn.extended"> Recorda'Mmmm
-        </label>
-      </div>
-      <button class="btn btn-lg btn-primary btn-block" (click)="sendSignInForm()">Entra!</button>
-      <button class="btn btn-lg btn-secondary btn-block" (click)="showSignUp()">Registra la teva burguer!</button>
-    </div>
-  </div>
-</div>
-
-<div class="container" *ngIf="!isLoggedIn() && !isSignIn()">
-  <div class="row justify-content-center">
-    <div class="col-md-6 login-form form-signup">
-      <h2>Burguer Form</h2>
-
-      <div class="form-group">
-        <h5>Nom</h5>
-        <input type="text" class="form-control" placeholder="Introdueix el teu nom" [(ngModel)]="signUp.name">
-      </div>
-
-      <div class="form-group">
-        <h5>Grup</h5>
-        <input type="text" class="form-control" id="signUpGroup" placeholder="Introdueix el nom de la teva colla" [(ngModel)]="signUp.group">
-      </div>
-
-      <h5>Tipus d'hamburguesa</h5>
-      <div class="checkbox-svg-form row justify-content-center">
-        <div class="col-4" *ngFor="let burgerType of burgerTypes">
-          <label>
-            <input type="radio" name="eatType" [value]="burgerType.value" [(ngModel)]="signUp.eatType" (change)="changeBurgerType()">
-            <img [src]="burgerType.img" alt="{{ burgerType.label }}" class="rounded-0">
-            <p>{{ burgerType.label }}</p>
-          </label>
-        </div>
-      </div>
-
-      <h5 *ngIf="signUp.eatType !== 'veggy'">Ingredients <small class="text-muted smaller">Màxim 3 ingredients</small></h5>
-      <div *ngIf="signUp.eatType !== 'veggy'" class="checkbox-svg-form row justify-content-center">
-        <div class="col-4" *ngFor="let ingredient of ingredients">
-          <label>
-            <input class="form-check-input" type="checkbox" [value]="ingredient.value" (change)="changeBurgerIngredients($event)">
-            <img [src]="ingredient.img" alt="{{ ingredient.label }}">
-            <p>{{ ingredient.label }}</p>
-          </label>
-        </div>
-      </div>
-      <h4 class="text-center text-success" *ngIf="signUp.eatType === 'veggy'">Entrepa d'humus amb escalivada [NO BURGER]</h4>
-
-      <h5>Beguda</h5>
-      <div class="checkbox-svg-form row justify-content-center">
-        <div class="col-4" *ngFor="let drink of drinks">
-          <label>
-            <input class="form-check-input" type="radio" name="drink" [value]="drink.value" [(ngModel)]="signUp.drink">
-            <img [src]="drink.img" alt="{{ drink.label }}" class="rounded-0">
-            <p>{{ drink.label }}</p>
-          </label>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <h5>Comentaris</h5>
-        <textarea class="form-control" rows="3" [(ngModel)]="signUp.comments"></textarea>
-      </div>
-
-      <button class="btn btn-lg btn-primary btn-block" (click)="sendSignUpForm()">Registra-la!</button>
-      <button class="btn btn-lg btn-secondary btn-block" (click)="showSignIn()">Zona Privada!</button>
-    </div>
-  </div>
-</div>
-
-<div class="container" *ngIf="isLoggedIn()">
-  TODO
-</div>
+<app-auth-form *ngIf="!isLoggedIn() && isSignIn()" (loginForm)="showSignUp($event)"></app-auth-form>
+<app-burger-form *ngIf="!isLoggedIn() && !isSignIn()" (loginForm)="showSignIn($event)"></app-burger-form>
+<app-users-list *ngIf="isLoggedIn()"></app-users-list>
 
 <footer>
   <div class="container">
-    <img class="footer" src="/assets/img/logo_r.png"> Retoca'Mmmm © <img class="footer" src="/assets/img/diablillu.png"> Diables de les Corts {{ year }}
+    <img class="footer" src="/assets/img/logo_r.png"> {{ name }} © <img class="footer" src="/assets/img/diablillu.png"> {{ name }} {{ year }}
   </div>
 </footer>

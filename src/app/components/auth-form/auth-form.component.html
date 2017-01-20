@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 login-form form-signin">
+      <h2>Accedeix</h2>
+
+      <input type="email" class="form-control" placeholder="Direcció d'email" autofocus="" [(ngModel)]="signIn.email">
+      <input type="password" class="form-control" placeholder="Contrasenya" autocomplete="off" [(ngModel)]="signIn.password">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" [value]="'true'" [(ngModel)]="signIn.extended"> Recorda'Mmmm
+        </label>
+      </div>
+      <button class="btn btn-lg btn-primary btn-block" (click)="sendSignInForm()">Entra!</button>
+      <button class="btn btn-lg btn-secondary btn-block" (click)="showSignUp()">Registra la teva burguer!</button>
+    </div>
+  </div>
+</div>
