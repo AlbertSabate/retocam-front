@@ -57,7 +57,7 @@ export class ApiService {
       .catch(this.handleError);
   }
 
-  public getUser(userId: number): Observable<any> {
+  public getUser(userId: String): Observable<any> {
     return this.http.get(environment.apiUrl + 'users/' + userId, this.getOptions())
       .map((response: Response) => {
         const body = response.json();
@@ -67,8 +67,18 @@ export class ApiService {
       .catch(this.handleError);
   }
 
-  public putUser(userId: number): Observable<any> {
+  public putUser(userId: String): Observable<any> {
     return this.http.put(environment.apiUrl + 'users/' + userId, this.getOptions())
+      .map((response: Response) => {
+        const body = response.json();
+
+        return body || { };
+      })
+      .catch(this.handleError);
+  }
+
+  public deleteUser(userId: String): Observable<any> {
+    return this.http.delete(environment.apiUrl + 'users/' + userId, this.getOptions())
       .map((response: Response) => {
         const body = response.json();
 

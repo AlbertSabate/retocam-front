@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ViewContainerRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewContainerRef } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { ApiService } from '../../services/api.service';
@@ -15,6 +15,7 @@ import { ingredients } from '../../constants/ingredients';
   styleUrls: ['./burger-form.component.scss']
 })
 export class BurgerFormComponent {
+  @Input() group: String;
   @Output() loginForm: EventEmitter<any> = new EventEmitter();
   public signUp: SignUp;
 
@@ -62,6 +63,7 @@ export class BurgerFormComponent {
   }
 
   public sendSignUpForm() {
+    this.signUp.group = this.group;
     this.api.createUserApiRequest(this.signUp).subscribe(
       response => {
         if (response.message === 'USER_CREATED') {

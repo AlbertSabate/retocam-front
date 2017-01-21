@@ -4,6 +4,8 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { ApiService } from './services/api.service';
 
+import { groups } from './constants/groups';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,6 +20,7 @@ export class AppComponent implements OnInit {
   public title: String = 'Trobada de Percussió de Les Corts';
   public year: Number;
 
+  public group: String;
   public users: Array<Object> = [];
 
   constructor(
@@ -29,6 +32,15 @@ export class AppComponent implements OnInit {
     this.notify.setRootViewContainerRef(vRef);
     this.year = new Date().getFullYear();
     this.titleService.setTitle( this.title + ' ' + this.year );
+
+    const hash = window.location.pathname.substring(1);
+    this.group = groups[hash];
+    if (hash === 'admin') {
+      this.loginForm = true;
+    } else if (typeof this.group === 'undefined') {
+      document.getElementsByTagName('body')[0].remove();
+      window.location.href = 'http://diablesdelescorts.cat/';
+    }
   }
 
   ngOnInit() {

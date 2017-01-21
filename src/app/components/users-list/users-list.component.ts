@@ -10,4 +10,11 @@ export class UsersListComponent {
 
   constructor() { }
 
+  changeUser(userId: String) {
+    console.log(userId);
+  }
+
+  deleteUser(userId: String) {
+    console.log(userId);
+  }
 }

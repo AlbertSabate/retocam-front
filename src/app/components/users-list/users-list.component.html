@@ -1,3 +1,35 @@
 <div class="container">
-  {{ users | json }}
+  <table class="table table-hover">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Nom</th>
+        <th>Grup</th>
+        <th>Veggy</th>
+        <th>Ingredients</th>
+        <th>Beure</th>
+        <th>Comentaris</th>
+        <th>Data</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <th class="align-middle" scope="row">{{ user.name }}</th>
+        <td class="align-middle">{{ user.group }}</td>
+        <td class="align-middle">{{ user.eatType === 'all' ? 'No' : 'Si' }}</td>
+        <td class="align-middle">
+          <ul *ngIf="user.burgerIngredients.length > 0">
+            <li *ngFor="let ingredient of user.burgerIngredients">{{ ingredient }}</li>
+          </ul>
+        </td>
+        <td class="align-middle">{{ user.drink }}</td>
+        <td class="align-middle">{{ user.comments }}</td>
+        <td class="align-middle">{{ user.createdAt }}</td>
+        <td>
+          <a (click)="changeUser(user._id)">Editar</a>,
+          <a (click)="deleteUser(user._id)">Esborrar</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

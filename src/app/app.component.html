@@ -8,7 +8,7 @@
 </header>
 
 <app-auth-form *ngIf="!isLoggedIn() && isSignIn()" (loginForm)="showSignUp()" (loadUsers)="loadUsers()"></app-auth-form>
-<app-burger-form *ngIf="!isLoggedIn() && !isSignIn()" (loginForm)="showSignIn()"></app-burger-form>
+<app-burger-form *ngIf="!isLoggedIn() && !isSignIn()" [group]="group" (loginForm)="showSignIn()"></app-burger-form>
 <app-users-list *ngIf="isLoggedIn()" [users]="users"></app-users-list>
 
 <footer>
