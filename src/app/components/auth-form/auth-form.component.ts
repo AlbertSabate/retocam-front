@@ -12,6 +12,7 @@ import { SignIn } from '../../forms/sign-in';
 })
 export class AuthFormComponent {
   @Output() loginForm: EventEmitter<any> = new EventEmitter();
+  @Output() loadUsers: EventEmitter<any> = new EventEmitter();
   public signIn: SignIn;
 
   constructor(
@@ -24,24 +25,32 @@ export class AuthFormComponent {
   }
 
   public sendSignInForm() {
+    const that = this;
+
     this.api.authUserApiRequest(this.signIn).subscribe(
       response => {
         if (response.message === 'INVALID_PASSWORD') {
-          this.notify.error('Error al validar-te');
+          that.notify.error('Error al validar-te');
+        } else if (response.message === 'EMAIL_REQUIRED') {
+          that.notify.error('El camp Email és obligatori');
+        } else if (response.message === 'USER_NOT_FOUND') {
+          that.notify.error('No estás registrat!');
         } else if (response.message === 'AUTH_SUCCESS') {
-          this.notify.success('Validat correctament');
+          that.notify.success('Validat correctament');
           localStorage.setItem('token', response.token);
+
+          that.loadUsers.emit();
         } else {
-          this.notify.error(response.message);
+          that.notify.error(response.message);
         }
       },
       error => {
-        this.notify.error('Error al validar-te');
+        that.notify.error('Error al validar-te');
       }
     );
   }
 
   public showSignUp() {
-    this.loginForm.emit(null);
+    this.loginForm.emit();
   }
 }

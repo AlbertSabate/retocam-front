@@ -13,17 +13,22 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ApiService {
-  private options: RequestOptions;
-
   constructor(
     private http: Http
-  ) {
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    this.options = new RequestOptions({ headers: headers });
+  ) { }
+
+  private getOptions() {
+    const headers = { 'Content-Type': 'application/json' };
+    const token = localStorage.getItem('token');
+    if (token) {
+      headers['X-Access-Token'] = token;
+    }
+
+    return new RequestOptions({ headers: new Headers(headers) });
   }
 
   public createUserApiRequest(signUp: SignUp): Observable<any> {
-    return this.http.post(environment.apiUrl + 'users', JSON.stringify(signUp), this.options)
+    return this.http.post(environment.apiUrl + 'users', JSON.stringify(signUp), this.getOptions())
       .map((response: Response) => {
         const body = response.json();
 
@@ -33,7 +38,37 @@ export class ApiService {
   }
 
   public authUserApiRequest(signIn: SignIn): Observable<any> {
-    return this.http.post(environment.apiUrl + 'authenticate', JSON.stringify(signIn), this.options)
+    return this.http.post(environment.apiUrl + 'authenticate', JSON.stringify(signIn), this.getOptions())
+      .map((response: Response) => {
+        const body = response.json();
+
+        return body || { };
+      })
+      .catch(this.handleError);
+  }
+
+  public getUsers(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'users', this.getOptions())
+      .map((response: Response) => {
+        const body = response.json();
+
+        return body || { };
+      })
+      .catch(this.handleError);
+  }
+
+  public getUser(userId: number): Observable<any> {
+    return this.http.get(environment.apiUrl + 'users/' + userId, this.getOptions())
+      .map((response: Response) => {
+        const body = response.json();
+
+        return body || { };
+      })
+      .catch(this.handleError);
+  }
+
+  public putUser(userId: number): Observable<any> {
+    return this.http.put(environment.apiUrl + 'users/' + userId, this.getOptions())
       .map((response: Response) => {
         const body = response.json();
 

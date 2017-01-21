@@ -7,12 +7,12 @@
   </div>
 </header>
 
-<app-auth-form *ngIf="!isLoggedIn() && isSignIn()" (loginForm)="showSignUp($event)"></app-auth-form>
-<app-burger-form *ngIf="!isLoggedIn() && !isSignIn()" (loginForm)="showSignIn($event)"></app-burger-form>
-<app-users-list *ngIf="isLoggedIn()"></app-users-list>
+<app-auth-form *ngIf="!isLoggedIn() && isSignIn()" (loginForm)="showSignUp()" (loadUsers)="loadUsers()"></app-auth-form>
+<app-burger-form *ngIf="!isLoggedIn() && !isSignIn()" (loginForm)="showSignIn()"></app-burger-form>
+<app-users-list *ngIf="isLoggedIn()" [users]="users"></app-users-list>
 
 <footer>
   <div class="container">
-    <img class="footer" src="/assets/img/logo_r.png"> {{ name }} © <img class="footer" src="/assets/img/diablillu.png"> {{ name }} {{ year }}
+    <img class="footer" src="/assets/img/logo_r.png"> {{ name }} © <img class="footer" src="/assets/img/diablillu.png"> {{ org }} {{ year }}
   </div>
 </footer>

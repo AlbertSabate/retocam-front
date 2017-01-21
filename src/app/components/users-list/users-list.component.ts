@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-users-list',
@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./users-list.component.scss']
 })
 export class UsersListComponent {
-  public users: Array<Object>;
+  @Input() users: Array<Object>;
 
   constructor() { }
 

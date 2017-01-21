@@ -79,6 +79,6 @@ export class BurgerFormComponent {
   }
 
   public showSignIn() {
-    this.loginForm.emit(null);
+    this.loginForm.emit();
   }
 }
