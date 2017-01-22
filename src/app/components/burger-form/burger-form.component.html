@@ -23,7 +23,7 @@
       <div *ngIf="signUp.eatType !== 'veggy'" class="checkbox-svg-form row justify-content-center">
         <div class="col-4" *ngFor="let ingredient of ingredients">
           <label>
-            <input class="form-check-input" type="checkbox" [value]="ingredient.value" (change)="changeBurgerIngredients($event)">
+            <input id="check-{{ ingredient.value }}" class="form-check-input" type="checkbox" [value]="ingredient.value" (change)="changeBurgerIngredients($event)">
             <img [src]="ingredient.img" alt="{{ ingredient.label }}">
             <p>{{ ingredient.label }}</p>
           </label>
@@ -48,7 +48,6 @@
       </div>
 
       <button class="btn btn-lg btn-primary btn-block" (click)="sendSignUpForm()">Registra-la!</button>
-      <button class="btn btn-lg btn-secondary btn-block" (click)="showSignIn()">Zona Privada!</button>
     </div>
   </div>
 </div>

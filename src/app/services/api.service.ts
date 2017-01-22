@@ -47,8 +47,13 @@ export class ApiService {
       .catch(this.handleError);
   }
 
-  public getUsers(): Observable<any> {
-    return this.http.get(environment.apiUrl + 'users', this.getOptions())
+  public getUsers(group?: String): Observable<any> {
+    let url = environment.apiUrl + 'users';
+    if (group) {
+      url += '?group=' + group;
+    }
+
+    return this.http.get(url, this.getOptions())
       .map((response: Response) => {
         const body = response.json();
 
@@ -67,8 +72,8 @@ export class ApiService {
       .catch(this.handleError);
   }
 
-  public putUser(userId: String): Observable<any> {
-    return this.http.put(environment.apiUrl + 'users/' + userId, this.getOptions())
+  public putUser(userId: String, signUp: SignUp): Observable<any> {
+    return this.http.put(environment.apiUrl + 'users/' + userId, signUp, this.getOptions())
       .map((response: Response) => {
         const body = response.json();
 

@@ -20,7 +20,11 @@ export class AppComponent implements OnInit {
   public title: String = 'Trobada de Percussió de Les Corts';
   public year: Number;
 
+  public groups: Array<String>;
   public group: String;
+
+  public userId: String;
+  public user: Object;
   public users: Array<Object> = [];
 
   constructor(
@@ -32,6 +36,10 @@ export class AppComponent implements OnInit {
     this.notify.setRootViewContainerRef(vRef);
     this.year = new Date().getFullYear();
     this.titleService.setTitle( this.title + ' ' + this.year );
+
+    this.groups = Object.keys(groups).map((key) => {
+      return groups[key];
+    });
 
     const hash = window.location.pathname.substring(1);
     this.group = groups[hash];
@@ -54,28 +62,17 @@ export class AppComponent implements OnInit {
   public loadUsers() {
     const that = this;
 
-    if (this.isLoggedIn()) {
-      this.api.getUsers().subscribe(
-        users => {
-          if (users.message === 'INVALID_TOKEN') {
-            that.notify.error('Ep! L\'autenticació no es vàlida');
-          } else if (users.message === 'NO_TOKEN') {
-            that.notify.error('No estás validat!');
-          } else if (users.message === 'USER_NOT_FOUND') {
-            that.notify.error('L\'usuari ja no existeix');
-          } else {
-            that.users = users;
-          }
-          that.loading = false;
-        },
-        error => {
-          that.notify.error(error.message);
-          this.loading = false;
-        }
-      );
-    } else {
-      this.loading = false;
-    }
+    this.api.getUsers(this.group).subscribe(
+      users => {
+        that.users = users;
+
+        that.loading = false;
+      },
+      error => {
+        that.notify.error(error.message);
+        this.loading = false;
+      }
+    );
   }
 
   public isSignIn(): Boolean {
@@ -88,5 +85,34 @@ export class AppComponent implements OnInit {
 
   public showSignUp() {
     this.loginForm = false;
+  }
+
+  public logout() {
+    localStorage.removeItem('token');
+  }
+
+  public createNew() {
+    this.user = undefined;
+    this.group = undefined;
+  }
+
+  public getUser(userId: String) {
+    const that = this;
+
+    this.api.getUser(userId).subscribe(
+      response => {
+        if (response.message === 'USER_NOT_FOUND') {
+          that.notify.success('L\'Usuari no existeix!');
+        } else if (response.message === 'UNAUTHORIZED') {
+          that.notify.success('No tens permisos');
+        } else {
+          that.user = response;
+          that.group = response.group;
+        }
+      },
+      error => {
+        that.notify.success('Uppss! No s\'ha pogut carregar l\'usuari');
+      }
+    );
   }
 }

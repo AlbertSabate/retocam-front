@@ -2,14 +2,14 @@
   <table class="table table-hover">
     <thead class="thead-inverse">
       <tr>
-        <th>Nom</th>
-        <th>Grup</th>
-        <th>Veggy</th>
-        <th>Ingredients</th>
-        <th>Beure</th>
-        <th>Comentaris</th>
-        <th>Data</th>
-        <th></th>
+        <th class="text-center">Nom</th>
+        <th class="text-center">Grup</th>
+        <th class="text-center">Veggy</th>
+        <th class="text-center">Ingredients</th>
+        <th class="text-center">Beure</th>
+        <th class="text-center">Comentaris</th>
+        <th class="text-center">Data</th>
+        <th class="text-center" *ngIf="isLoggedIn">Opcions</th>
       </tr>
     </thead>
     <tbody>
@@ -25,11 +25,12 @@
         <td class="align-middle">{{ user.drink }}</td>
         <td class="align-middle">{{ user.comments }}</td>
         <td class="align-middle">{{ user.createdAt }}</td>
-        <td>
+        <td class="align-middle" *ngIf="isLoggedIn">
           <a (click)="changeUser(user._id)">Editar</a>,
           <a (click)="deleteUser(user._id)">Esborrar</a>
         </td>
       </tr>
     </tbody>
   </table>
+  <button *ngIf="isLoggedIn" type="button" class="btn btn-primary btn-lg btn-block" (click)="exportUsers()">Exportar CSV</button>
 </div>

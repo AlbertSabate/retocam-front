@@ -7,9 +7,26 @@
   </div>
 </header>
 
+<app-users-list *ngIf="users.length > 0" [users]="users" [isLoggedIn]="isLoggedIn()" (getUser)="getUser($event)" (loadUsers)="loadUsers()"></app-users-list>
 <app-auth-form *ngIf="!isLoggedIn() && isSignIn()" (loginForm)="showSignUp()" (loadUsers)="loadUsers()"></app-auth-form>
-<app-burger-form *ngIf="!isLoggedIn() && !isSignIn()" [group]="group" (loginForm)="showSignIn()"></app-burger-form>
-<app-users-list *ngIf="isLoggedIn()" [users]="users"></app-users-list>
+
+<div class="container" *ngIf="isLoggedIn() && isSignIn()">
+  <div class="row justify-content-center">
+    <div class="col-md-6 group-select p-3 mb-3 mt-3">
+      <h4>Tria un grup per la nova burger</h4>
+      <select class="form-control" [ngModel]="group">
+        <option *ngFor="let group of groups">{{ group }}</option>
+      </select>
+      <button *ngIf="user" type="button" class="btn btn-danger btn-lg btn-block mt-3" (click)="createNew()">No vuy editar!</button>
+    </div>
+  </div>
+</div>
+
+<app-burger-form *ngIf="isLoggedIn() || !isSignIn()" [user]="user" [group]="group" (loginForm)="showSignIn()" (loadUsers)="loadUsers()"></app-burger-form>
+
+<div class="container mt-3">
+  <button *ngIf="isLoggedIn()" type="button" class="btn btn-danger btn-lg btn-block" (click)="logout()">Sortir</button>
+</div>
 
 <footer>
   <div class="container">

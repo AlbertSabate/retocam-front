@@ -30,25 +30,6 @@
               box-sizing: border-box;
       padding: 10px;
       font-size: 14px;
-
-      &:focus {
-        z-index: 2;
-      }
-    }
-
-    button {
-      cursor: pointer;
-
-      &.btn-primary {
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-      }
-
-      &.btn-secondary {
-        margin-top: 0;
-        border-top-right-radius: 0;
-        border-top-left-radius: 0;
-      }
     }
   }
 }

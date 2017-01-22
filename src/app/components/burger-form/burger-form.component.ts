@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewContainerRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewContainerRef, OnChanges } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { ApiService } from '../../services/api.service';
@@ -14,9 +14,13 @@ import { ingredients } from '../../constants/ingredients';
   templateUrl: './burger-form.component.html',
   styleUrls: ['./burger-form.component.scss']
 })
-export class BurgerFormComponent {
+export class BurgerFormComponent implements OnChanges {
+  @Input() user: any;
   @Input() group: String;
   @Output() loginForm: EventEmitter<any> = new EventEmitter();
+  @Output() loadUsers: EventEmitter<any> = new EventEmitter();
+
+  private userId: String;
   public signUp: SignUp;
 
   public burgerTypes: Array<Object>;
@@ -29,10 +33,40 @@ export class BurgerFormComponent {
     private notify: ToastsManager
   ) {
     this.notify.setRootViewContainerRef(vRef);
+
     this.signUp = new SignUp();
     this.burgerTypes = burgerTypes;
     this.drinks = drinks;
     this.ingredients = ingredients;
+  }
+
+  ngOnChanges() {
+    if (typeof this.user !== 'undefined') {
+      this.userId = this.user._id;
+
+      this.signUp.name = this.user.name;
+      this.signUp.eatType = this.user.eatType;
+      this.signUp.burgerIngredients = this.user.burgerIngredients;
+      this.signUp.drink = this.user.drink;
+      this.signUp.comments = this.user.comments;
+
+      for (let i = 0; this.signUp.burgerIngredients.length > i; i++) {
+        const el = <HTMLInputElement> document.getElementById('check-' + this.signUp.burgerIngredients[i]);
+        el.checked = true;
+      }
+    } else {
+      this.resetForm();
+    }
+  }
+
+  private resetForm() {
+    for (let i = 0; this.signUp.burgerIngredients.length > i; i++) {
+      const el = <HTMLInputElement> document.getElementById('check-' + this.signUp.burgerIngredients[i]);
+      el.checked = false;
+    }
+
+    this.signUp = new SignUp();
+    this.userId = undefined;
   }
 
   public changeBurgerType() {
@@ -48,6 +82,8 @@ export class BurgerFormComponent {
 
       if (index !== -1) {
         this.signUp.burgerIngredients.splice(index, 1);
+      } else {
+        this.notify.info('No pots seleccionar més ingredients');
       }
     } else {
       if (event.target.checked) {
@@ -63,21 +99,48 @@ export class BurgerFormComponent {
   }
 
   public sendSignUpForm() {
+    const that = this;
+
     this.signUp.group = this.group;
-    this.api.createUserApiRequest(this.signUp).subscribe(
-      response => {
-        if (response.message === 'USER_CREATED') {
-          this.notify.success('BURGER GUARDADA CORRECTAMENT!');
-        } else if (response.message === 'NAME_REQUIRED') {
-          this.notify.error('Has d\'escriure el teu nom!');
-        } else {
-          this.notify.error(response.message);
+    if (!this.userId) {
+      this.api.createUserApiRequest(this.signUp).subscribe(
+        response => {
+          if (response.message === 'USER_CREATED') {
+            that.notify.success('BURGER GUARDADA CORRECTAMENT!');
+            that.loadUsers.emit();
+
+            that.signUp = new SignUp();
+            window.scroll(0, 0);
+          } else if (response.message === 'NAME_REQUIRED') {
+            this.notify.error('Has d\'escriure el teu nom!');
+          } else if (response.message === 'GROUP_REQUIRED') {
+            that.notify.error('Has de triar el grup!');
+          } else {
+            that.notify.error(response.message);
+          }
+        },
+        error => {
+          that.notify.error('Error al guardar la teva burger! :(');
         }
-      },
-      error => {
-        this.notify.error('Error al guardar la teva burger! :(');
-      }
-    );
+      );
+    } else {
+      this.api.putUser(this.userId, this.signUp).subscribe(
+        response => {
+          if (response.message === 'USER_UPDATED') {
+            that.notify.success('BURGER GUARDADA CORRECTAMENT!');
+            that.loadUsers.emit();
+
+            that.resetForm();
+            window.scroll(0, 0);
+          } else {
+            that.notify.error(response.message);
+          }
+        },
+        error => {
+          that.notify.error('Error al guardar la teva burger! :(');
+        }
+      );
+    }
   }
 
   public showSignIn() {

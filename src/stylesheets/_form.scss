@@ -15,11 +15,14 @@
       }
 
       input[type="checkbox"] + img,
-      input[type="radio"] + img,
+      input[type="radio"] + img {
+        opacity: .5;
+        filter: grayscale(60%);
+      }
+
       input[type="checkbox"] + img + p,
       input[type="radio"] + img + p {
-        opacity: .5;
-        filter: grayscale(50%);
+        opacity: .8;
       }
 
       input[type="checkbox"]:checked + img,
@@ -31,4 +34,8 @@
       }
     }
   }
+}
+
+.group-select {
+  background-color: rgba(255, 255, 255, 1);
 }
