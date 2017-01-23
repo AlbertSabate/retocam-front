@@ -14,7 +14,7 @@
   <div class="row justify-content-center">
     <div class="col-md-6 group-select p-3 mb-3 mt-3">
       <h4>Tria un grup per la nova burger</h4>
-      <select class="form-control" [ngModel]="group">
+      <select class="form-control" [(ngModel)]="group">
         <option *ngFor="let group of groups">{{ group }}</option>
       </select>
       <button *ngIf="user" type="button" class="btn btn-danger btn-lg btn-block mt-3" (click)="createNew()">No vuy editar!</button>

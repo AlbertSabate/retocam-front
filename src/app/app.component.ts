@@ -62,7 +62,8 @@ export class AppComponent implements OnInit {
   public loadUsers() {
     const that = this;
 
-    this.api.getUsers(this.group).subscribe(
+    const group = (!this.isLoggedIn()) ? this.group : undefined;
+    this.api.getUsers(group).subscribe(
       users => {
         that.users = users;
 
