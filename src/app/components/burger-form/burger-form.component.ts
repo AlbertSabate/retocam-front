@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewContainerRef, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewContainerRef, OnChanges, OnInit } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { ApiService } from '../../services/api.service';
@@ -14,7 +14,7 @@ import { ingredients } from '../../constants/ingredients';
   templateUrl: './burger-form.component.html',
   styleUrls: ['./burger-form.component.scss']
 })
-export class BurgerFormComponent implements OnChanges {
+export class BurgerFormComponent implements OnChanges, OnInit {
   @Input() user: any;
   @Input() group: String;
   @Output() loginForm: EventEmitter<any> = new EventEmitter();
@@ -40,13 +40,19 @@ export class BurgerFormComponent implements OnChanges {
     this.ingredients = ingredients;
   }
 
+  ngOnInit() {
+    this.signUp.burgerIngredients = ['salad', 'tomato', 'cheese', 'bacon'];
+  }
+
   ngOnChanges() {
     if (typeof this.user !== 'undefined') {
       this.userId = this.user._id;
 
       this.signUp.name = this.user.name;
       this.signUp.eatType = this.user.eatType;
-      this.signUp.burgerIngredients = this.user.burgerIngredients;
+      if (this.user.burgerIngredients) {
+        this.signUp.burgerIngredients = this.user.burgerIngredients;
+      }
       this.signUp.drink = this.user.drink;
       this.signUp.comments = this.user.comments;
 
@@ -76,7 +82,9 @@ export class BurgerFormComponent implements OnChanges {
   }
 
   public changeBurgerIngredients(event) {
-    if (this.signUp.burgerIngredients.length >= 3) {
+    event.target.checked = true;
+
+    /*if (this.signUp.burgerIngredients.length >= 3) {
       event.target.checked = false;
       const index = this.signUp.burgerIngredients.indexOf(event.target.value);
 
@@ -95,7 +103,7 @@ export class BurgerFormComponent implements OnChanges {
           this.signUp.burgerIngredients.splice(index, 1);
         }
       }
-    }
+    }*/
   }
 
   public sendSignUpForm() {

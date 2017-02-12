@@ -8,7 +8,7 @@ export const drinks = [
     img: '/assets/img/coca-cola.svg',
     value: 'coca-cola'
   }, {
-    label: 'Fanta llimó',
+    label: 'Fanta llimona',
     img: '/assets/img/fanta.svg',
     value: 'lemon-fanta'
   }, {

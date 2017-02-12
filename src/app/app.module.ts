@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { BurgerFormComponent } from './components/burger-form/burger-form.component';
 import { AuthFormComponent } from './components/auth-form/auth-form.component';
 import { UsersListComponent } from './components/users-list/users-list.component';
@@ -24,7 +24,7 @@ import { ApiService } from './services/api.service';
     BrowserModule,
     FormsModule,
     HttpModule,
-    ToastModule
+    ToastModule.forRoot()
   ],
   providers: [
     Title,
