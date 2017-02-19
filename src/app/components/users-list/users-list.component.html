@@ -4,6 +4,7 @@
       <tr>
         <th class="text-center">Nom</th>
         <th class="text-center">Grup</th>
+        <th class="text-center">Gluten</th>
         <th class="text-center">Veggy</th>
         <th class="text-center">Ingredients</th>
         <th class="text-center">Beure</th>
@@ -16,6 +17,7 @@
       <tr *ngFor="let user of users">
         <th class="align-middle" scope="row">{{ user.name }}</th>
         <td class="align-middle">{{ user.group }}</td>
+        <td class="align-middle">{{ user.gluten ? 'Si' : 'No' }}</td>
         <td class="align-middle">{{ user.eatType === 'all' ? 'No' : 'Si' }}</td>
         <td class="align-middle">
           <ul *ngIf="user.burgerIngredients.length > 0">
