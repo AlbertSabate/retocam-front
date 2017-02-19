@@ -4,5 +4,6 @@ export class SignUp {
   public eatType: String = 'all';
   public burgerIngredients: Array<String> = [];
   public drink: String = 'beer';
+  public gluten: Boolean = false;
   public comments: String;
 }

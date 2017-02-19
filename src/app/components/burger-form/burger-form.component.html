@@ -8,6 +8,15 @@
         <input type="text" class="form-control" placeholder="Introdueix el teu nom" [(ngModel)]="signUp.name">
       </div>
 
+      <div class="form-check">
+        <label class="form-check-label">
+          <input type="checkbox" class="form-check-input" [(ngModel)]="signUp.gluten">
+          Marca'mmmm si vols PA SENSE GLUTEN
+        </label>
+      </div>
+
+      <hr>
+
       <h5>Tipus d'hamburguesa</h5>
       <div class="checkbox-svg-form row justify-content-center">
         <div class="col-4" *ngFor="let burgerType of burgerTypes">
@@ -30,6 +39,8 @@
         </div>
       </div>
       <h4 class="text-center text-success" *ngIf="signUp.eatType === 'veggy'">Entrepa d'humus amb escalivada [NO BURGER]</h4>
+
+      <hr>
 
       <h5>Beguda</h5>
       <div class="checkbox-svg-form row justify-content-center">
