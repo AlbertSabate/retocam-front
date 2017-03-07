@@ -10,7 +10,7 @@ export const groups = {
   'wujabuBe3aNawreBrEZAcethuThEwruw': 'Ambitum',
   'yup7unEsteSWufAprEpunatas6AFa5p3': 'Fills de la Flama',
   'dek28tETHUchaCraH3s2uxudRUQaP8eR': 'Xàldiga',
-  'g4kUjUweYasta5atHewRawathAp4eBax': 'Tokem x Tu',
+  'g4kUjUweYasta5atHewRawathAp4eBax': 'Tabalers del Poble Sec',
   'WRuGuzutrehaSawA6Pumed5guspeyune': 'Diables de Les Corts',
   'TUwADABu8afrEs65BAqUqeSwUwehe6un': 'DJ',
   'sepre3ru7ex5vuTrabruchaphetr2c6c': 'Tècnics'
